@@ -1,23 +1,29 @@
 import React from 'react';
-import faker from 'faker';
 
-const CommentDetail = () => {
+const CommentDetail = props => {
   return (
     <div className="comment">
       <a href="/" className="avatar">
-        <img alt="avatar" src={faker.image.avatar()} />
+        <img alt="avatar" src={props.avatar} />
       </a>
       <div className="content">
         <a href="/" className="author">
-          Sam
+          {props.author}
         </a>
         <div className="metadata">
-          <span className="date">Today at 6:00PM</span>
+          <span className="date">{format_date(props.date)}</span>
         </div>
-        <div className="text">Nice blog post!</div>
+        <div className="text">{props.content}</div>
       </div>
     </div>
   );
+}
+
+function format_date(date) {
+  const dateTimeFormat = new Intl.DateTimeFormat('en', { year: 'numeric', month: '2-digit', day: '2-digit' });
+  const [{ value: month },,{ value: day },,{ value: year }] = dateTimeFormat .formatToParts(date );
+
+  return `${day}-${month}-${year}`;
 }
 
 export default CommentDetail;
